@@ -62,9 +62,6 @@ def mac_vend(query):
 
 
 def mac_list(mac_addr):
-    if not MACLIST.exists():
-        print("\033[33m[-] Local MAC DB is missing, attempting to download...\033[0m")  # nopep8
-        download_db(MACLIST, MACDB)
     mac_vendor = [json.loads(line) for line in open(MACLIST, 'r', encoding='utf-8')]  # nopep8
     try:
         count = 0
@@ -92,13 +89,17 @@ def modified_date(db_file):
 
 
 def main(mac_addr, mac_file, update):
+    if not MACLIST.exists():
+        print("\033[33m[-] Local MAC DB is missing, attempting to download...\033[0m")  # nopep8
+        download_db(MACLIST, MACDB)
+        
     if mac_addr:
         try:
             if not any(char in mac_addr for char in ['-', ':']):
                 mac_addr = ':'.join(mac_addr[i:i+2]
                                     for i in range(0, len(mac_addr), 2))
             mac_addr = mac_addr.replace('-', ':')
-            print("\033[1;32;40m[ Querying macvendors database ]\033[0m")
+            print("\n\033[1;32;40m[ Querying macvendors database ]\033[0m")
             results = json.loads(mac_vend(mac_addr))
 
             print("\033[1;30;40m.\033[0m" * 32)
