@@ -11,7 +11,7 @@ import requests
 from tqdm import tqdm
 
 __author__ = "DFIRSec (@pulsecode)"
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 __description__ = "Simple script to query for MAC address vendor info"
 
 BASE_DIR = Path(__file__).resolve().parent
