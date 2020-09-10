@@ -1,3 +1,2 @@
-argparse
-requests
-tqdm
+requests==2.24.0
+tqdm==4.48.2
