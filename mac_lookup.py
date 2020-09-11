@@ -23,7 +23,7 @@ MACDB = 'https://macaddress.io/database/macaddress.io-db.json'
 
 def connect(url):
     try:
-        resp = requests.get(url, timeout=(5))
+        resp = requests.get(url, timeout=5)
         return resp
     except (requests.exceptions.Timeout,
             requests.exceptions.HTTPError,
@@ -40,7 +40,7 @@ def download_db(path, url):
         if resp.status_code == 200:
             f_size = int(resp.headers.get("Content-Length", 0))
             pbar = tqdm(iterable=resp.iter_content(chunk_size=1024),
-                        desc='[+] Downloading',
+                        desc='[+] \u001b[35mDownloading\033[0m',
                         total=f_size,
                         unit="B",
                         unit_scale=True,
@@ -78,9 +78,9 @@ def mac_list(mac_addr):
                 count += 1
                 break
         if not count:
-            print(f"\033[33m[-] No results for {mac_addr}\033[0m")
+            print(f"[-]\033[33m No results for {mac_addr}\033[0m")
     except Exception:
-        print(f"\033[31m[x] Error querying for {mac_addr}\033[0m")
+        print(f"[x]\033[31m Error querying for {mac_addr}\033[0m")
 
 
 def modified_date(db_file):
@@ -90,9 +90,9 @@ def modified_date(db_file):
 
 def main(mac_addr, mac_file, update):
     if not MACLIST.exists():
-        print("\033[33m[-] Local MAC DB is missing, attempting to download...\033[0m")  # nopep8
+        print("[-]\033[33m Local MAC DB is missing, attempting to download...\033[0m")  # nopep8
         download_db(MACLIST, MACDB)
-        
+
     if mac_addr:
         try:
             if not any(char in mac_addr for char in ['-', ':']):
@@ -108,7 +108,7 @@ def main(mac_addr, mac_file, update):
                 for k, v in results.items():
                     print(f"{k.title().replace('_', ' '):12}: {v}")
             else:
-                print(f"\033[33m[-] No results for {mac_addr}\033[0m")
+                print(f"[-]\033[33m No results for {mac_addr}\033[0m")
         except Exception:
             # defaults to local db if query fails
             print("\033[33m\n   == Online query failed ==\033[0m")
@@ -140,8 +140,7 @@ def main(mac_addr, mac_file, update):
                             for k, v in results.items():
                                 print(f"{k.title().replace('_', ' '):12}: {v}")
                         else:
-                            print(
-                                f"\033[33m[-] No results for {mac_addr}\033[0m")
+                            print(f"[-]\033[33m No results for {mac_addr}\033[0m")  # nopep8
                     except Exception:
                         # defaults to local db if query fails
                         mac_list(mac_addr)
@@ -149,11 +148,11 @@ def main(mac_addr, mac_file, update):
     if update:
         try:
             print(f"[+] Last updated: {modified_date(MACLIST)}")
-            input("\033[33m[?] Press Enter to continue, or Ctrl-C to cancel...\033")  # nopep8
-            print("\033[32m[+] Updating database...\033[0m")  # nopep8
+            input("[?]\033[33m Press Enter to continue, or Ctrl-C to cancel...\033[0m")  # nopep8
+            print("[+]\033[32m Updating database...\033[0m")  # nopep8
             download_db(MACLIST, MACDB)
         except KeyboardInterrupt:
-            print("\n[-] Update canceled")
+            print("\n[-]\033[33m Update canceled\033[0m")
 
 
 if __name__ == "__main__":
