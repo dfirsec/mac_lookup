@@ -128,11 +128,11 @@ def main(mac_addr, mac_file, update):
             print("\033[1;32;40m[ Querying macvendors database ]\033[0m")
             with open(mac_file) as f:
                 text = [text.strip() for text in f.readlines()]
-                for mac_addr in text:
-                    if not any(char in mac_addr for char in ["-", ":"]):
-                        mac_addr = ":".join(mac_addr[i : i + 2] for i in range(0, len(mac_addr), 2))
+                for addr in text:
+                    if not any(char in addr for char in ["-", ":"]):
+                        mac_addr = ":".join(addr[i : i + 2] for i in range(0, len(addr), 2))
 
-                    mac_addr = mac_addr.replace("-", ":")
+                    mac_addr = addr.replace("-", ":")
                     print("\033[1;30;40m.\033[0m" * 32)
 
                     try:
