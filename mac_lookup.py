@@ -32,8 +32,6 @@ def connect(url):
         requests.exceptions.ConnectionError,
         requests.exceptions.RequestException,
     ):
-        pass
-    except Exception:
         print("\033[31m[x]\033[0m Connection error encountered")
 
 
