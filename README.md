@@ -12,7 +12,7 @@ cd mac_lookup
 pip install -r requirements.txt
 ```
 
-```text
+```console
      __  ______   ______   __                __
     /  |/  /   | / ____/  / /   ____  ____  / /____  ______
    / /|_/ / /| |/ /      / /   / __ \/ __ \/ //_/ / / / __ \
@@ -20,18 +20,21 @@ pip install -r requirements.txt
  /_/  /_/_/  |_\____/  /_____/\____/\____/_/|_|\__,_/ .___/
                                                    /_/
 
-usage: mac_lookup.py [-h] [-m MAC] [-f FILE]
+usage: mac_lookup.py [-h] [-f FILE] [-u] MAC
+
+positional arguments:
+  MAC         single mac address
 
 optional arguments:
   -h, --help  show this help message and exit
-  -m MAC      mac address
   -f FILE     file with mac addresses
+  -u          update local database
 ```
 
 ## Usage
 
 ```text
-c:\mac_lookup> python mac_lookup.py -m 48-F1-7F-96-CC-B9
+c:\mac_lookup> python mac_lookup.py 48-F1-7F-96-CC-B9
 [ Querying macvendors database ]
 ................................
 Company     : Intel Corporate
@@ -46,7 +49,7 @@ Type        : MA-L
 Switches to local database file if online query fails.
 
 ```text
-c:\mac_lookup> python mac_lookup.py -m 20:DE:88
+c:\mac_lookup> python mac_lookup.py 20:DE:88
 [ Querying macvendors database ]
 
 == Online query failed ==

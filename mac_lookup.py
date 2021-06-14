@@ -11,7 +11,7 @@ import requests
 from tqdm import tqdm
 
 __author__ = "DFIRSec (@pulsecode)"
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 __description__ = "Simple script to query for MAC address vendor info"
 
 parent = Path(__file__).resolve().parent
@@ -36,29 +36,21 @@ def connect(url):
 
 
 def download_db(path, url):
-    try:
-        resp = requests.get(url, stream=True)
-        if resp.status_code == 200:
-            f_size = int(resp.headers.get("Content-Length", 0))
-            pbar = tqdm(
-                iterable=resp.iter_content(chunk_size=1024),
-                desc="[+] \u001b[35mDownloading\033[0m",
-                total=f_size,
-                unit="B",
-                unit_scale=True,
-                unit_divisor=1024,
-            )
-            with open(path, "wb") as db_file:
-                for data in pbar:
-                    db_file.write(data)
-                    pbar.update(len(data))
-    except (
-        requests.exceptions.Timeout,
-        requests.exceptions.HTTPError,
-        requests.exceptions.ConnectionError,
-        requests.exceptions.RequestException,
-    ):
-        print("\033[31m[x]\033[0m Download error encountered")
+    resp = connect(url)
+    if resp.status_code == 200:
+        f_size = int(resp.headers.get("Content-Length", 0))
+        pbar = tqdm(
+            iterable=resp.iter_content(chunk_size=1024),
+            desc="[+] \u001b[35mDownloading\033[0m",
+            total=f_size,
+            unit="B",
+            unit_scale=True,
+            unit_divisor=1024,
+        )
+        with open(path, "wb") as db_file:
+            for data in pbar:
+                db_file.write(data)
+                pbar.update(len(data))
 
 
 def mac_vend(query):
@@ -173,7 +165,7 @@ if __name__ == "__main__":
     print(f"\033[36m{banner}\033[0m")
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", dest="mac", metavar="MAC ADDRESS", help="single mac address")
+    parser.add_argument("mac", metavar="MAC", help="single mac address")
     parser.add_argument("-f", dest="file", metavar="FILE", help="file with mac addresses")
     parser.add_argument("-u", dest="update", action="store_true", help="update local database")
     args = parser.parse_args()
