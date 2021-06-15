@@ -150,15 +150,15 @@ def main(mac_addr, mac_file, update):
 
             if no_db_match:
                 print("\n\033[1;32;40m[ Querying macvendors online database ]\033[0m")
-                for mac_addr in no_db_match:
+                for addr in no_db_match:
                     print("\033[1;30;40m.\033[0m" * 32)
-                    results = json.loads(mac_vend(mac_addr))
+                    results = json.loads(mac_vend(addr))
                     if "error" not in results:
-                        print(f"\033[1;36;40m{'MAC Addr':12}: {mac_addr}\033[0m")
+                        print(f"\033[1;36;40m{'MAC Addr':12}: {addr}\033[0m")
                         for k, v in results.items():
                             print(f"{k.title().replace('_', ' '):12}: {v}")
                     else:
-                        print(f"[-]\033[33m No results for {mac_addr}\033[0m")
+                        print(f"[-]\033[33m No results for {addr}\033[0m")
 
     # update the local mac db
     if update:
