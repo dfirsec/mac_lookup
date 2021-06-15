@@ -62,7 +62,7 @@ def mac_db():
     try:
         mac_vendor = [json.loads(line) for line in open(macdb_path, encoding="utf-8")]
     except json.decoder.JSONDecodeError:
-        sys.exit(f"Error encountered reading mac db file.")
+        sys.exit("Error encountered reading mac db file.")
     else:
         return mac_vendor
 
