@@ -23,7 +23,9 @@ macvend = "https://macvendors.co/api/"
 def connect(url):
     try:
         session = requests.Session()
-        ua = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/43.0"}
+        ua = {
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/43.0"
+        }
         resp = session.get(url, headers=ua)
         return resp
     except (
@@ -188,11 +190,17 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--mac", metavar="MAC", help="single mac address")
-    parser.add_argument("-f", dest="file", metavar="FILE", help="file with mac addresses")
-    parser.add_argument("-u", dest="update", action="store_true", help="update local database")
+    parser.add_argument(
+        "-f", dest="file", metavar="FILE", help="file with mac addresses"
+    )
+    parser.add_argument(
+        "-u", dest="update", action="store_true", help="update local database"
+    )
     args = parser.parse_args()
 
     if not (args.mac or args.file or args.update):
-        parser.error("\033[33m No action requested: Include mac address (-m) or file (-f) or update (-u)\033[0m")
+        parser.error(
+            "\033[33m No action requested: Include mac address (-m) or file (-f) or update (-u)\033[0m"
+        )
 
     main(mac_addr=args.mac, mac_file=args.file, update=args.update)
