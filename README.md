@@ -1,6 +1,6 @@
 # MAC Address Lookup
 
-[![DeepSource](https://deepsource.io/gh/dfirsec/mac_lookup.svg/?label=active+issues&show_trend=true&token=gYA5JUpCySwLi-SMCnfALNiL)](https://deepsource.io/gh/dfirsec/mac_lookup/?ref=repository-badge) ![Generic badge](https://img.shields.io/badge/python-3.7-blue.svg) [![Twitter](https://img.shields.io/badge/Twitter-@pulsecode-blue.svg)](https://twitter.com/pulsecode)
+![Generic badge](https://img.shields.io/badge/python-3.7-blue.svg) [![Twitter](https://img.shields.io/badge/Twitter-@pulsecode-blue.svg)](https://twitter.com/pulsecode)
 
 Simple script to query macvendors.co for MAC address info. Option to also read from file containing a list of MAC addresses.
 
