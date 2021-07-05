@@ -16,15 +16,17 @@ __description__ = "Simple script to query for MAC address vendor info"
 # required paths
 parent = Path(__file__).resolve().parent
 macdb_path = parent.joinpath("macaddress.io-db.json")
-macdb_web = "https://macaddress.io/database/macaddress.io-db.json"
-macvend = "https://macvendors.co/api/"
+
+# Online MAC DBs
+MACDB_WEB = "https://macaddress.io/database/macaddress.io-db.json"
+MACVEND = "https://macvendors.co/api/"
 
 
 def connect(url):
     try:
         session = requests.Session()
-        ua = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/43.0"}
-        resp = session.get(url, headers=ua)
+        agent = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/43.0"}
+        resp = session.get(url, headers=agent)
         return resp
     except (
         requests.exceptions.Timeout,
@@ -33,6 +35,7 @@ def connect(url):
         requests.exceptions.RequestException,
     ):
         print("\033[31m[x]\033[0m Connection error encountered")
+    return None
 
 
 def download_db(path, url):
@@ -54,7 +57,7 @@ def download_db(path, url):
 
 
 def mac_vend(query):
-    resp = connect(macvend + query)
+    resp = connect(MACVEND + query)
     return json.dumps(resp.json()["result"], sort_keys=True, indent=4)
 
 
@@ -92,7 +95,7 @@ def modified_date(db_file):
 def main(mac_addr, mac_file, update):
     if not macdb_path.exists():
         print("[-]\033[33m Local MAC DB is missing, attempting to download...\033[0m")
-        download_db(macdb_path, macdb_web)
+        download_db(macdb_path, MACDB_WEB)
 
     # single mac address
     if mac_addr:
@@ -166,7 +169,7 @@ def main(mac_addr, mac_file, update):
             print(f"[+] Last updated: {modified_date(macdb_path)}")
             input("[?]\033[33m Press Enter to continue, or Ctrl-C to cancel...\033[0m")
             print("[+]\033[32m Updating database...\033[0m")
-            download_db(macdb_path, macdb_web)
+            download_db(macdb_path, MACDB_WEB)
         except KeyboardInterrupt:
             print("\n[-]\033[33m Update canceled\033[0m")
 
@@ -192,7 +195,7 @@ if __name__ == "__main__":
     parser.add_argument("-u", dest="update", action="store_true", help="update local database")
     args = parser.parse_args()
 
-    if not (args.mac or args.file or args.update):
+    if not any([args.mac, args.file, args.update]):
         parser.error("\033[33m No action requested: Include mac address (-m) or file (-f) or update (-u)\033[0m")
 
     main(mac_addr=args.mac, mac_file=args.file, update=args.update)
