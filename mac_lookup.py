@@ -23,37 +23,40 @@ MACVEND = "https://macvendors.co/api/"
 
 
 def connect(url):
+    session = requests.Session()
+    agent = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/43.0"}
     try:
-        session = requests.Session()
-        agent = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:40.0) Gecko/20100101 Firefox/43.0"}
         resp = session.get(url, headers=agent)
-        return resp
+        resp.raise_for_status()
     except (
         requests.exceptions.Timeout,
         requests.exceptions.HTTPError,
         requests.exceptions.ConnectionError,
         requests.exceptions.RequestException,
-    ):
-        print("\033[31m[x]\033[0m Connection error encountered")
-    return None
+    ) as err:
+        raise SystemExit(err) from err
+    else:
+        if resp.status_code == 200:
+            return resp
+    raise SystemExit
 
 
 def download_db(path, url):
     resp = connect(url)
-    if resp.status_code == 200:
-        size = int(resp.headers.get("Content-Length", 0))
-        pbar = tqdm(
-            iterable=resp.iter_content(chunk_size=1024),
-            desc="[+] \u001b[35mDownloading\033[0m",
-            total=size,
-            unit="B",
-            unit_scale=True,
-            unit_divisor=1024,
-        )
-        with open(path, "wb") as db_file:
-            for data in pbar:
-                db_file.write(data)
-                pbar.update(len(data))
+    size = int(resp.headers.get("Content-Length", 0))
+
+    pbar = tqdm(
+        iterable=resp.iter_content(chunk_size=1024),
+        desc="[+] \u001b[35mDownloading\033[0m",
+        total=size,
+        unit="B",
+        unit_scale=True,
+        unit_divisor=1024,
+    )
+    with open(path, "wb") as db_file:
+        for data in pbar:
+            db_file.write(data)
+            pbar.update(len(data))
 
 
 def mac_vend(query):
@@ -131,8 +134,8 @@ def main(mac_addr, mac_file, update):
             sys.exit()
         else:
             print("\033[1;32;40m[ Querying macvendors database ]\033[0m")
-            with open(mac_file) as f:
-                text = [text.strip() for text in f.readlines()]
+            with open(mac_file, encoding="utf8") as fileobj:
+                text = [text.strip() for text in fileobj.readlines()]
 
             no_db_match = []
             for addr in text:
@@ -175,14 +178,14 @@ def main(mac_addr, mac_file, update):
 
 
 if __name__ == "__main__":
-    banner = fr"""
+    banner = rf"""
          __  ______   ______   __                __
         /  |/  /   | / ____/  / /   ____  ____  / /____  ______
        / /|_/ / /| |/ /      / /   / __ \/ __ \/ //_/ / / / __ \
       / /  / / ___ / /___   / /___/ /_/ / /_/ / ,< / /_/ / /_/ /
      /_/  /_/_/  |_\____/  /_____/\____/\____/_/|_|\__,_/ .___/
                                                        /_/
-                                                       
+
                                                 v{__version__}
                                                 {__author__}
     """
