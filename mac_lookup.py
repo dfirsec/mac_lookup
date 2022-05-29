@@ -74,10 +74,7 @@ def mac_db():
 
 
 def fix_mac_addr(mac_addr):
-    if not any(char in mac_addr for char in ["-", ":"]):
-        mac_addr = ":".join(mac_addr[i : i + 2] for i in range(0, len(mac_addr), 2))
-    else:
-        mac_addr = mac_addr.replace("-", ":")
+    mac_addr = mac_addr.replace("-", ":") if any(char in mac_addr for char in ["-", ":"]) else ":".join(mac_addr[i : i + 2] for i in range(0, len(mac_addr), 2))
     return mac_addr
 
 
@@ -105,15 +102,8 @@ def main(mac_addr, mac_file, update):
         print("\033[1;32;40m\n[ Querying local database ]\033[0m")
         print("\033[1;30;40m.\033[0m" * 32)
         mac_addr = fix_mac_addr(mac_addr)
-        match = check_loc_db(mac_addr)
-        if match:
-            print(f"{'MAC Addr':12}: \033[1;36;40m{match['oui']}\033[0m")
-            print(f"{'Company':12}: {match['companyName']}")
-            print(f"{'Mac Prefix':12}: {match['oui']}")
-            print(f"{'Address':12}: {match['companyAddress']}")
-            print(f"{'Created':12}: {match['dateCreated']}")
-            print(f"{'Updated':12}: {match['dateUpdated']}")
-            print(f"{'Type':12}: {match['assignmentBlockSize']}")
+        if match := check_loc_db(mac_addr):
+            mac_details(match)
         else:
             print(f"[-]\033[33m No results for {mac_addr}\033[0m")
 
@@ -141,15 +131,8 @@ def main(mac_addr, mac_file, update):
             for addr in text:
                 print("\033[1;30;40m.\033[0m" * 32)
                 mac_addr = fix_mac_addr(addr)
-                match = check_loc_db(mac_addr)
-                if match:
-                    print(f"{'MAC Addr':12}: \033[1;36;40m{match['oui']}\033[0m")
-                    print(f"{'Company':12}: {match['companyName']}")
-                    print(f"{'Mac Prefix':12}: {match['oui']}")
-                    print(f"{'Address':12}: {match['companyAddress']}")
-                    print(f"{'Created':12}: {match['dateCreated']}")
-                    print(f"{'Updated':12}: {match['dateUpdated']}")
-                    print(f"{'Type':12}: {match['assignmentBlockSize']}")
+                if match := check_loc_db(mac_addr):
+                    mac_details(match)
                 else:
                     print(f"[-]\033[33m No results for {mac_addr}\033[0m")
                     no_db_match.append(mac_addr)
@@ -175,6 +158,16 @@ def main(mac_addr, mac_file, update):
             download_db(macdb_path, MACDB_WEB)
         except KeyboardInterrupt:
             print("\n[-]\033[33m Update canceled\033[0m")
+
+
+def mac_details(match):
+    print(f"{'MAC Addr':12}: \033[1;36;40m{match['oui']}\033[0m")
+    print(f"{'Company':12}: {match['companyName']}")
+    print(f"{'Mac Prefix':12}: {match['oui']}")
+    print(f"{'Address':12}: {match['companyAddress']}")
+    print(f"{'Created':12}: {match['dateCreated']}")
+    print(f"{'Updated':12}: {match['dateUpdated']}")
+    print(f"{'Type':12}: {match['assignmentBlockSize']}")
 
 
 if __name__ == "__main__":
