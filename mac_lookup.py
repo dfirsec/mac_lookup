@@ -7,14 +7,14 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from db_handler import check_loc_db, format_json_file, mac_db
-from mac_utils import fix_mac_addr, mac_details
 from rich import print as rprint
 from rich.progress import Progress, SpinnerColumn
 from rich.prompt import Prompt
 from rich.style import Style
 from rich.text import Text
-from web_utils import connect, maclookup_api
+from utils.db_handler import check_loc_db, format_json_file, mac_db
+from utils.mac_utils import fix_mac_addr, mac_details
+from utils.web_utils import connect, maclookup_api
 
 
 def read_api_key(filepath: str) -> str | None:
