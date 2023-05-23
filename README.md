@@ -1,67 +1,89 @@
-# MAC Address Lookup
+# MAC Lookup
 
-![Generic badge](https://img.shields.io/badge/python-3.7-blue.svg) [![Twitter](https://img.shields.io/badge/Twitter-@pulsecode-blue.svg)](https://twitter.com/pulsecode)
+Simple script to query for MAC address vendor info.
 
-Simple script to query macvendors.co for MAC address info. Option to also read from file containing a list of MAC addresses.
+## Description
+
+MAC Lookup is a Python script that allows you to query and retrieve information about MAC addresses. It provides functionality to query a local MAC address database as well as an online database using the maclookup.app API. The script supports querying a single MAC address or processing a file containing multiple MAC addresses.
+
+## Features
+
+- Query MAC address vendor information using an offline/online database.
+- Update the local MAC address database.
+- Query a single MAC address or process a file with multiple MAC addresses.
+
+## Requirements
+
+- Python 3.x
 
 ## Installation
 
+1. Clone the repository or download the script files.
+
 ```text
 git clone https://github.com/dfirsec/mac_lookup.git
-cd mac_lookup
-pip install -r requirements.txt
 ```
 
-```console
-     __  ______   ______   __                __
-    /  |/  /   | / ____/  / /   ____  ____  / /____  ______
-   / /|_/ / /| |/ /      / /   / __ \/ __ \/ //_/ / / / __ \
-  / /  / / ___ / /___   / /___/ /_/ / /_/ / ,< / /_/ / /_/ /
- /_/  /_/_/  |_\____/  /_____/\____/\____/_/|_|\__,_/ .___/
-                                                   /_/
+2. Navigate to the project directory:
 
-usage: mac_lookup.py [-h] [-f FILE] [-u] MAC
+```text
+cd mac_lookup
+```
 
-positional arguments:
-  MAC         single mac address
+3. Install the dependencies using poetry:
 
-optional arguments:
-  -h, --help  show this help message and exit
-  -f FILE     file with mac addresses
-  -u          update local database
+```text
+poetry install
 ```
 
 ## Usage
 
-```text
-c:\mac_lookup> python mac_lookup.py 48-F1-7F-96-CC-B9
-[ Querying macvendors database ]
-................................
-Company     : Intel Corporate
-Mac Prefix  : 48:F1:7F
-Address     : Lot 8, Jalan Hi-Tech 2/3,Kulim  Kedah  09000,MY
-Start Hex   : 48F17F000000
-End Hex     : 48F17FFFFFFF
-Country     : None
-Type        : MA-L
-```
-
-Switches to local database file if online query fails.
+1. Create the virtual environment
 
 ```text
-c:\mac_lookup> python mac_lookup.py 20:DE:88
-[ Querying macvendors database ]
-
-== Online query failed ==
-
-[ Switching to local database ]
-................................
-[-] Local MAC DB is missing, attempting to download...
-[+] Downloading: 1943KB [00:00, 2471.24KB/s]
-Company     : IC Realtime Llc
-Mac Prefix  : 20:DE:88
-Address     : 3050 N Andrews Ave Ext. Pompano Beach FL 33064 US
-Created     : 2018-06-25
-Updated     : 2018-06-25
-Type        : MA-L
+poetry shell
 ```
+
+2. Run using the following commands:
+   
+```text
+python mac_lookup.py [-h] [-m MAC] [-f FILE] [-u]
+```
+
+- `-h, --help`: Show the help message and exit.
+- `-m  MAC, --mac MAC`: MAC address to look up.
+- `-f  FILE, --file FILE`: File containing MAC addresses.
+- `-u, --update`: Update the local MAC address database.
+
+## Configuration
+
+**OPTIONAL**: Before running the script, set up the necessary configuration:
+
+> Obtain an API key from maclookup.app by signing up on their website. Copy the API key to the `settings.json` file.
+
+## Examples
+
+Look up a single MAC address:
+
+```text
+python mac_lookup.py -m 00:00:0C
+```
+
+Process a file containing MAC addresses:
+
+```text
+python mac_lookup.py -f mac_addresses.txt
+```
+
+Update the local MAC address database:
+
+```text
+python mac_lookup.py -u
+```
+
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvement, please create an issue or submit a pull request.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
