@@ -6,7 +6,7 @@ authors = ["Mitch Haddadi <12067255+dfirsec@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-requests = "^2.28.1"
+requests = "^2.31.0"
 tqdm = "^4.64.0"
 
 [tool.poetry.dev-dependencies]
