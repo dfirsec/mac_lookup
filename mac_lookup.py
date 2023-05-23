@@ -106,16 +106,25 @@ def process_mac_addr(mac_addr: str, local_db: list) -> None:
         mac_details(match)
     else:
         rprint(f"[-][yellow] No results for {mac_addr}[/yellow]")
-
-        rprint("\n[green][ Querying maclookup_api online database ][/green]")
-        rprint(separator)
-        results = json.loads(maclookup_api(mac_addr, api_key=api_key))
-        if results["success"] is True:
-            rprint(f"[cyan]{'MAC Addr':12}: {mac_addr}[/cyan]")
-            for k, v in results.items():
-                rprint(f"{k.title().replace('_', ' '):12}: {v}")
+        # Check MAC prefix in local database
+        mac_prefix = mac_addr.split(":")[:3]
+        mac_prefix = ":".join(mac_prefix)
+        prefix_match = check_loc_db(mac_prefix, local_db)
+        if prefix_match:
+            rprint(f"\n[+] [green]Match found for MAC Prefix {mac_prefix}[/green]")
+            rprint(separator)
+            mac_details(prefix_match)
         else:
-            rprint(f"[-][yellow] No results for {mac_addr}[/yellow]")
+            rprint(f"[yellow] No results for MAC Prefix: {mac_prefix}[/yellow]")
+            rprint("\n[green][ Querying maclookup_api online database ][/green]")
+            rprint(separator)
+            results = json.loads(maclookup_api(mac_addr, api_key=api_key))
+            if results["success"] is True:
+                rprint(f"[cyan]{'MAC Addr':12}: {mac_addr}[/cyan]")
+                for k, v in results.items():
+                    rprint(f"{k.title().replace('_', ' '):12}: {v}")
+            else:
+                rprint(f"[yellow] No results for {mac_addr}[/yellow]")
 
 
 def process_mac_file(mac_file: Path, local_db: list) -> None:
