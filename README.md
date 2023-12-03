@@ -1,20 +1,18 @@
 # MAC Lookup
 
-Simple script to query for MAC address vendor info.
+Simple script to query a MAC address for vendor info.
 
 ## Description
 
-MAC Lookup is a Python script that allows you to query and retrieve information about MAC addresses. It provides functionality to query a local MAC address database as well as an online database using the maclookup.app API. The script supports querying a single MAC address or processing a file containing multiple MAC addresses.
+MAC Lookup is a Python script to query and retrieve information about MAC addresses. It provides functionality to query a local MAC address database as well as an online database using the maclookup.app API. The script supports querying a single MAC address or processing a file containing multiple MAC addresses.
 
 ## Features
 
-- Query MAC address vendor information using an offline/online database.
-- Update the local MAC address database.
-- Query a single MAC address or process a file with multiple MAC addresses.
+Query MAC address vendor information using an offline/online database.
 
-## Requirements
+Update the local MAC address database.
 
-- Python 3.x
+Query a single MAC address or process a file with multiple MAC addresses.
 
 ## Installation
 
@@ -45,7 +43,7 @@ poetry shell
 ```
 
 2. Run using the following commands:
-   
+
 ```text
 python mac_lookup.py [-h] [-m MAC] [-f FILE] [-u]
 ```
@@ -59,7 +57,7 @@ python mac_lookup.py [-h] [-m MAC] [-f FILE] [-u]
 
 **OPTIONAL**: Before running the script, set up the necessary configuration:
 
-> Obtain an API key from maclookup.app by signing up on their website. Copy the API key to the `settings.json` file.
+> Obtain an API key from maclookup.app by signing up on their website. Copy the API key to the `config.yaml` file.
 
 ## Examples
 
@@ -86,4 +84,5 @@ python mac_lookup.py -u
 Contributions are welcome! If you find any issues or have suggestions for improvement, please create an issue or submit a pull request.
 
 ## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.

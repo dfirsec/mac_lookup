@@ -1,12 +1,15 @@
 [tool.poetry]
 name = "mac_lookup"
-version = "0.1.0"
+version = "0.1.1"
 description = "Simple script to query for MAC address vendor info"
 authors = ["Mitch Haddadi <12067255+dfirsec@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+beautifulsoup4 = "^4.12.2"
+fake-useragent = "^1.4.0"
 requests = "^2.31.0"
+pyyaml = "^6.0.1"
 tqdm = "^4.64.0"
 rich = "^13.3.5"
 
