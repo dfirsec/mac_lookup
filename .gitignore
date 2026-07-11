@@ -1,2 +1,4 @@
 macaddress-db.json
 test_config
+.venv/
+__pycache__/

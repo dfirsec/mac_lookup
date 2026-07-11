@@ -18,34 +18,28 @@ Query a single MAC address or process a file with multiple MAC addresses.
 
 1. Clone the repository or download the script files.
 
-```text
-git clone https://github.com/dfirsec/mac_lookup.git
-```
+    ```text
+    git clone https://github.com/dfirsec/mac_lookup.git
+    ```
 
 2. Navigate to the project directory:
 
-```text
-cd mac_lookup
-```
+    ```text
+    cd mac_lookup
+    ```
 
-3. Install the dependencies using poetry:
+3. Install the dependencies using uv:
 
-```text
-poetry install
-```
+    ```text
+    uv sync
+    ```
 
 ## Usage
 
-1. Create the virtual environment
+Run the script in the uv-managed environment:
 
 ```text
-poetry shell
-```
-
-2. Run using the following commands:
-
-```text
-python mac_lookup.py [-h] [-m MAC] [-f FILE] [-u]
+uv run python mac_lookup.py [-h] [-m MAC] [-f FILE] [-u]
 ```
 
 - `-h, --help`: Show the help message and exit.
@@ -64,19 +58,28 @@ python mac_lookup.py [-h] [-m MAC] [-f FILE] [-u]
 Look up a single MAC address:
 
 ```text
-python mac_lookup.py -m 00:00:0C
+uv run python mac_lookup.py -m 00:00:0C
 ```
 
 Process a file containing MAC addresses:
 
 ```text
-python mac_lookup.py -f mac_addresses.txt
+uv run python mac_lookup.py -f mac_addresses.txt
 ```
 
 Update the local MAC address database:
 
 ```text
-python mac_lookup.py -u
+uv run python mac_lookup.py -u
+```
+
+## Testing
+
+Install the locked development dependencies and run the test suite:
+
+```text
+uv sync
+uv run pytest
 ```
 
 ## Contributing
