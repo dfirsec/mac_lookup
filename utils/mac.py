@@ -3,7 +3,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from mac_lookup_core.database import MacRecord
+    from DFIR.mac_lookup.utils.database import MacRecord
 
 
 def fix_mac_addr(mac_addr: str) -> str:

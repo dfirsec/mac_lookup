@@ -17,15 +17,15 @@ from rich.progress import SpinnerColumn
 from rich.prompt import Prompt
 from rich.text import Text
 
-from mac_lookup_core.database import MacRecord
-from mac_lookup_core.database import check_local_db
-from mac_lookup_core.database import format_json_file
-from mac_lookup_core.database import mac_db
-from mac_lookup_core.mac import fix_mac_addr
-from mac_lookup_core.mac import mac_details
-from mac_lookup_core.web import connect
-from mac_lookup_core.web import get_download_link
-from mac_lookup_core.web import maclookup_api
+from DFIR.mac_lookup.utils.database import MacRecord
+from DFIR.mac_lookup.utils.database import check_local_db
+from DFIR.mac_lookup.utils.database import format_json_file
+from DFIR.mac_lookup.utils.database import mac_db
+from DFIR.mac_lookup.utils.mac import fix_mac_addr
+from DFIR.mac_lookup.utils.mac import mac_details
+from DFIR.mac_lookup.utils.web import connect
+from DFIR.mac_lookup.utils.web import get_download_link
+from DFIR.mac_lookup.utils.web import maclookup_api
 
 if TYPE_CHECKING:
     from requests import Response
