@@ -1,91 +1,49 @@
 # MAC Lookup
 
-Simple script to query a MAC address for vendor info.
-
-## Description
-
-MAC Lookup is a Python script to query and retrieve information about MAC addresses. It provides functionality to query a local MAC address database as well as an online database using the maclookup.app API. The script supports querying a single MAC address or processing a file containing multiple MAC addresses.
-
-## Features
-
-Query MAC address vendor information using an offline/online database.
-
-Update the local MAC address database.
-
-Query a single MAC address or process a file with multiple MAC addresses.
+Look up the vendor for one MAC address or a file of addresses. The script checks a local vendor database first, then queries the maclookup.app API for addresses it cannot find locally. You can refresh the local database from the command line.
 
 ## Installation
 
-1. Clone the repository or download the script files.
+Install Python 3.14 or newer and uv, then run:
 
-    ```text
-    git clone https://github.com/dfirsec/mac_lookup.git
-    ```
+```text
+git clone https://github.com/dfirsec/mac_lookup.git
+cd mac_lookup
+uv sync
+```
 
-2. Navigate to the project directory:
-
-    ```text
-    cd mac_lookup
-    ```
-
-3. Install the dependencies using uv:
-
-    ```text
-    uv sync
-    ```
+The current checkout has package references to `mac_lookup_core`, although its modules are in `utils/`. The CLI currently fails on import, and the tests may do the same until the imports and build configuration are reconciled.
 
 ## Usage
 
-Run the script in the uv-managed environment:
-
-```text
-uv run python mac_lookup.py [-h] [-m MAC] [-f FILE] [-u]
-```
-
-- `-h, --help`: Show the help message and exit.
-- `-m  MAC, --mac MAC`: MAC address to look up.
-- `-f  FILE, --file FILE`: File containing MAC addresses.
-- `-u, --update`: Update the local MAC address database.
-
-## Configuration
-
-**OPTIONAL**: Before running the script, set up the necessary configuration:
-
-> Obtain an API key from maclookup.app by signing up on their website. Copy the API key to the `config.yaml` file.
-
-## Examples
-
-Look up a single MAC address:
+Look up one address:
 
 ```text
 uv run python mac_lookup.py -m 00:00:0C
 ```
 
-Process a file containing MAC addresses:
+Look up addresses from a text file with one MAC address per line:
 
 ```text
 uv run python mac_lookup.py -f mac_addresses.txt
 ```
 
-Update the local MAC address database:
+Refresh the local vendor database:
 
 ```text
 uv run python mac_lookup.py -u
 ```
 
-## Testing
+The update command fetches the database and asks before writing `macaddress-db.json`. Run `uv run python mac_lookup.py --help` for all options.
 
-Install the locked development dependencies and run the test suite:
+## Configuration
 
-```text
-uv sync
-uv run pytest
-```
+An API key is optional. To use one for online lookups, set `maclookup_app` in `config.yaml` to your key from maclookup.app. Keep your key out of commits.
 
-## Contributing
+## Testing and contributing
 
-Contributions are welcome! If you find any issues or have suggestions for improvement, please create an issue or submit a pull request.
+Run the pytest suite with `uv run pytest`. See [AGENTS.md](AGENTS.md) for the repository layout and contribution guidelines. Issues and pull requests are welcome.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MAC Lookup is licensed under the MIT License. See [LICENSE](LICENSE).
