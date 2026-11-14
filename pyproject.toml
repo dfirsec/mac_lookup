@@ -5,15 +5,15 @@ description = "Simple script to query for MAC address vendor info"
 authors = [{ name = "Mitch Haddadi", email = "12067255+dfirsec@users.noreply.github.com" }]
 requires-python = ">=3.14"
 dependencies = [
-    "beautifulsoup4>=4.15.0,<5",
-    "requests>=2.34.0,<3",
-    "pyyaml>=6.0.3,<7",
-    "rich>=15.0.0,<16",
+    "beautifulsoup4",
+    "requests",
+    "pyyaml",
+    "rich",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.2,<10",
+    "pytest",
 ]
 
 [build-system]
