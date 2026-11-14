@@ -40,7 +40,6 @@ def mac_db(filepath: str) -> list[MacRecord]:
         Database records in their stored order.
 
     Raises:
-        FileNotFoundError: If the database does not exist.
         SystemExit: If the database contains invalid JSON.
     """
     try:
@@ -49,6 +48,25 @@ def mac_db(filepath: str) -> list[MacRecord]:
     except json.JSONDecodeError as error:
         print("Error encountered reading mac db file.", error)
         raise SystemExit(1) from error
+
+
+def _normalized_prefix(record: MacRecord) -> str:
+    """Return a record's normalized MAC prefix.
+
+    Args:
+        record: A MAC vendor database record.
+
+    Returns:
+        The normalized MAC prefix as a lowercase string without colons.
+
+    Raises:
+        TypeError: If the macPrefix is not a string.
+    """
+    prefix_value = record["macPrefix"]
+    if not isinstance(prefix_value, str):
+        msg = "macPrefix must be a string"
+        raise TypeError(msg)
+    return prefix_value.replace(":", "").lower()
 
 
 def check_local_db(mac_addr: str, local_db: list[MacRecord]) -> MacRecord | None:
@@ -67,11 +85,7 @@ def check_local_db(mac_addr: str, local_db: list[MacRecord]) -> MacRecord | None
 
     try:
         for record in local_db:
-            prefix_value = record["macPrefix"]
-            if not isinstance(prefix_value, str):
-                msg = "macPrefix must be a string"
-                raise TypeError(msg)
-            prefix = prefix_value.replace(":", "").lower()
+            prefix = _normalized_prefix(record)
             if normalized_mac.startswith(prefix) and len(prefix) > longest_prefix:
                 closest_match = record
                 longest_prefix = len(prefix)
